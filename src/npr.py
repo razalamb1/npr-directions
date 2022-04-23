@@ -1,10 +1,10 @@
 """Make calls to NPR API."""
 
-from dotenv import dotenv_values
 import requests
+from typing import Tuple
 
 
-def get_stations(npr_key: str, lon: str, lat: str) -> tuple[str, str]:
+def get_stations(npr_key: str, lon: str, lat: str) -> Tuple[str, str]:
     """Make call to NPR Stations API."""
     headers = {"Authorization": f"Bearer {npr_key}"}
     params = {"lat": lat, "lon": lon}
