@@ -3,9 +3,6 @@
 import googlemaps
 import pandas as pd
 import geopandas as gpd
-import shapely
-import contextily as cx
-from dotenv import dotenv_values
 
 
 def get_directions(
