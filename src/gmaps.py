@@ -3,7 +3,6 @@
 import googlemaps
 import pandas as pd
 import geopandas as gpd
-from dotenv import dotenv_values
 
 
 def get_directions(
