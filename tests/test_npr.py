@@ -14,4 +14,4 @@ def test_get_stations():
         get_stations(NPR_KEY, "-99.67", "27.73")
     id, city = get_stations(NPR_KEY, "-78.99", "35.98")
     assert id == "WUNC FM 91.5"
-    assert city == "Chapel Hill"
+    assert city == "Chapel Hill, NC"
