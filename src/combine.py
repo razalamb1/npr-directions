@@ -1,7 +1,11 @@
 """Combine Google Maps and NPR."""
 
-from src.gmaps import get_directions
-from src.npr import get_stations
+try:
+    from src.gmaps import get_directions
+    from src.npr import get_stations
+except:
+    from gmaps import get_directions
+    from npr import get_stations
 import googlemaps
 import pandas as pd
 import geopandas as gpd
