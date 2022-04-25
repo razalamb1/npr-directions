@@ -1,52 +1,52 @@
+"""Flask application."""
+
 import mimetypes
 from os import sendfile
+import os
 from flask import Flask, jsonify, request, render_template, Response
 from graphviz import render
-from src.gmaps import get_directions
+from src.combine import get_lines, graph_lines
 import googlemaps
 import matplotlib
-
-matplotlib.use("Agg")
 import matplotlib.pyplot as plt
 from matplotlib.backends.backend_agg import FigureCanvasAgg
 from matplotlib.figure import Figure
-from dotenv import dotenv_values
+from dotenv import load_dotenv
 import io
 
+matplotlib.use("Agg")
+
+load_dotenv()
 
 app = Flask(__name__)
 
 
 @app.route("/")
 def hub():
+    """Welcome page."""
     return render_template("hub.html")
 
 
 @app.route("/NPRDirections")
 def NPRDirections():
+    """Input page for origin and destination."""
     return render_template("NPRDirections.html")
 
 
 @app.route("/NPRDirections", methods=["POST"])
 def NPRDirectionsResults():
-    config = dotenv_values(".env")
-    GMAPS_KEY = config["GMAPS_KEY"]
-    print(GMAPS_KEY)
+    """Post image to user."""
+    GMAPS_KEY = os.environ.get("GMAPS_KEY")
+    NPR_KEY = os.environ.get("NPR_KEY")
     client = googlemaps.Client(key=GMAPS_KEY)
     origin = request.form["origin"]
     dest = request.form["dest"]
-    fig = get_directions(client, origin, dest).plot(figsize=(20, 20))
+    gdf = get_lines(client, NPR_KEY, origin, dest)
+    fig = graph_lines(gdf)
     fig = fig.figure
     output = io.BytesIO()
     FigureCanvasAgg(fig).print_png(output)
     return Response(output.getvalue(), mimetype="image/png")
-    # return render_template("NPRDirectionsResults.html", final_output=final_output)
-    # canvas = FigureCanvasAgg(fig)
-    # img = io.BytesIO()
-    # fig.(img)
-    # img.seek(0)
-    # return render_template("NPRDirectionsResults.html", direction_plot=direction_plot)
-    # return render_template("NPRDirectionsResults.html", final_output=map_output)
 
 
 if __name__ == "__main__":
