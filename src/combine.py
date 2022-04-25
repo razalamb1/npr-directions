@@ -7,7 +7,6 @@ except ModuleNotFoundError:
     from gmaps import get_directions
     from npr import get_stations
 import googlemaps
-import pandas as pd
 import geopandas as gpd
 from math import cos, asin, sqrt, pi
 import shapely
@@ -43,7 +42,7 @@ def get_lines(
         if curr_st is None:
             lng = gmaps.loc[i, "lng"]
             lat = gmaps.loc[i, "lat"]
-            curr_st, curr_city = get_stations(npr_key, lng, lat)
+            curr_st, _ = get_stations(npr_key, lng, lat)
             curr_idx = i
             st_origin = (gmaps.loc[i, "lng"], gmaps.loc[i, "lat"])
         else:
@@ -57,7 +56,7 @@ def get_lines(
                 geometry.append(line)
                 if emer_stop > 3:
                     break
-                curr_st, curr_city = get_stations(npr_key, lng, lat)
+                curr_st, _ = get_stations(npr_key, lng, lat)
                 emer_stop += 1
                 curr_idx = i
                 st_origin = (lng, lat)

@@ -1,14 +1,11 @@
 """Flask application."""
 
-from os import sendfile
 import os
-from flask import Flask, jsonify, request, render_template, Response
+from flask import Flask, request, render_template, Response
 from src.combine import get_lines, graph_lines
 import googlemaps
 import matplotlib
-import matplotlib.pyplot as plt
 from matplotlib.backends.backend_agg import FigureCanvasAgg
-from matplotlib.figure import Figure
 from dotenv import load_dotenv
 import io
 
@@ -48,4 +45,4 @@ def NPRDirectionsResults():
 
 
 if __name__ == "__main__":
-    app.run(host="0.0.0.0", port=8080, debug=False)
+    app.run(host="127.0.0.1", port=8080, debug=False)

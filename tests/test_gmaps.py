@@ -14,4 +14,4 @@ def test_get_directions():
     with pytest.raises(OutsideUSA):
         get_directions(client, "Toronto, ON", "Chicago, IL")
     results = get_directions(client, "Chicago, IL", "Durham, NC")
-    assert results.shape == (219, 3)
+    assert results.shape == (221, 3)
