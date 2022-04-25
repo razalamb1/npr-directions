@@ -1,0 +1,76 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <title>NPR Directions</title>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <link rel="stylesheet" href="https://www.w3schools.com/w3css/4/w3.css">
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Raleway">
+    <style>
+        body,
+        h1 {
+            font-family: "Raleway", sans-serif
+        }
+
+        body,
+        html {
+            height: 100%
+        }
+
+        .bgimg {
+            background-image: url('https://www.w3schools.com/w3images/forestbridge.jpg');
+            min-height: 100%;
+            background-position: center;
+            background-size: cover;
+        }
+
+        .button {
+            background-color: #133337;
+            border: none;
+            color: white;
+            padding: 25px 32px;
+            text-align: center;
+            font-size: 20;
+            margin: 0 auto;
+            display: block;
+
+        }
+
+        div {
+            margin-bottom: 10px;
+        }
+
+        label {
+            display: inline-block;
+            width: 150px;
+        }
+    </style>
+</head>
+
+<body>
+
+    <div class="bgimg w3-display-container w3-animate-opacity w3-text-white">
+        <div class="w3-display-middle">
+            <h1 class="w3-jumbo w3-animate-top">Road Trip Time!</h1>
+            <hr class="w3-border-grey" style="margin:auto;width:40%">
+            <p class="w3-large w3-center">Please enter your current location and travel destination down below</p>
+            <div>
+                <form method="POST">
+                    <div>
+                        <label for="origin" class="w3-large w3-center block">Current Location: </label>
+                        <input type="text" name="origin" class="block"><br>
+                    </div>
+                    <div>
+                        <label for="dest" class="w3-large w3-center block"> Destination: </label>
+                        <input type="text" name="dest" class="block"><br>
+                    </div>
+                    <input type="submit" class="button">
+                </form>
+            </div>
+        </div>
+    </div>
+
+</body>
+
+</html>
