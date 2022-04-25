@@ -1,10 +1,8 @@
 """Flask application."""
 
-import mimetypes
 from os import sendfile
 import os
 from flask import Flask, jsonify, request, render_template, Response
-from graphviz import render
 from src.combine import get_lines, graph_lines
 import googlemaps
 import matplotlib
