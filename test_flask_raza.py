@@ -1,6 +1,6 @@
 """Flask application."""
 
-from os import sendfile
+gifrom os import sendfile
 import os
 from flask import Flask, jsonify, request, render_template, Response
 from src.combine import get_lines, graph_lines
