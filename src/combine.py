@@ -11,6 +11,7 @@ import pandas as pd
 import geopandas as gpd
 from math import cos, asin, sqrt, pi
 import shapely
+import contextily as cx
 
 
 def distance(lat1, lon1, lat2, lon2):
@@ -70,3 +71,17 @@ def get_lines(
         crs=3857,
     )
     return lines_df
+
+
+def graph_lines(gdf: gpd.GeoDataFrame):
+    """Graph NPR stations with Gmaps polyline."""
+    ax = gdf.plot(
+        figsize=(15, 15),
+        column="stations",
+        legend=True,
+        linewidth=5,
+        legend_kwds={"loc": "lower right"},
+    )
+    cx.add_basemap(ax, source=cx.providers.Stamen.TonerLite)
+    ax.axis("off")
+    return ax.figure
