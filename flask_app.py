@@ -1,7 +1,7 @@
 """Flask application."""
 
 import os
-from flask import Flask, request, render_template, flash
+from flask import Flask, request, render_template
 from src.npr import StationError
 from src.gmaps import OutsideUSA
 from src.combine import get_lines, graph_lines
@@ -49,7 +49,9 @@ def NPRDirectionsResults():
             )
     except StationError:
         station_error = "There is no NPR station found near your starting location, or the NPR API has reached its daily maximum. Please try a different starting location or try again tomorrow. "
-        return render_template("NPRStation_ErrorMessage.html", station_error = station_error)
+        return render_template(
+            "NPRStation_ErrorMessage.html", station_error=station_error
+        )
     fig = Figure()
     fig = graph_lines(gdf)
     output = io.BytesIO()
