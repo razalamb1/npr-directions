@@ -55,7 +55,7 @@ def NPRDirectionsResults():
     fig = Figure()
     fig = graph_lines(gdf)
     output = io.BytesIO()
-    fig.savefig(output, format="png", dpi=300)
+    fig.savefig(output, format="png", dpi=300, bbox_inches="tight", pad_inches=1)
     final_plot = base64.b64encode(output.getbuffer()).decode("utf-8")
     return render_template("NPRDirectionsResults.html", img_data=final_plot)
 
