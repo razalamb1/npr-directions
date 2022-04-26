@@ -2,7 +2,7 @@
 <html>
 
 <head>
-    <title>W3.CSS Template</title>
+    <title>NPR Directions</title>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <link rel="stylesheet" href="https://www.w3schools.com/w3css/4/w3.css">
@@ -41,6 +41,15 @@
             box-shadow: box-shadow: 7px 6px 28px 1px rgba(0, 0, 0, 0.24);
             transform: translateY(4px);
         }
+
+        div {
+            margin-bottom: 10px;
+        }
+
+        label {
+            display: inline-block;
+            width: 150px;
+        }
     </style>
 </head>
 
@@ -48,14 +57,21 @@
 
     <div class="bgimg w3-display-container w3-animate-opacity w3-text-white">
         <div class="w3-display-middle">
-            <h1 class="w3-jumbo w3-animate-top">Welcome to NPR Directions</h1>
+            <h1 class="w3-jumbo w3-animate-top">Road Trip Time!</h1>
             <hr class="w3-border-grey" style="margin:auto;width:40%">
-            <p class="w3-large w3-center">Enter your travel destination and view all the NPR stations along the way</p>
+            <p class="w3-large w3-center">Please enter your current location and travel destination down below</p>
+            <p class="w3-large w3-center" style="color:red;">Error: {{ station_error }}</p>
             <div>
-                <form method="POST" action="/">
-                    <button class="button" type="button" name="Begin"
-                        onclick="window.location.href='{{url_for('NPRDirections')}}';"> Click
-                        Here to Begin</button>
+                <form method="POST">
+                    <div>
+                        <label for="origin" class="w3-large w3-center block">Current Location: </label>
+                        <input type="text" name="origin" class="block"><br>
+                    </div>
+                    <div>
+                        <label for="dest" class="w3-large w3-center block"> Destination: </label>
+                        <input type="text" name="dest" class="block"><br>
+                    </div>
+                    <input type="submit" class="button">
                 </form>
             </div>
         </div>
