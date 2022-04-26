@@ -110,11 +110,11 @@ def graph_lines(gdf: gpd.GeoDataFrame):
             "handletextpad": 0.3,
         },
     )
-    keyword, range = ax_limits(list(gdf.geometry))
+    keyword, ax_range = ax_limits(list(gdf.geometry))
     if keyword == "xlim":
-        ax.set_xlim(range)
+        ax.set_xlim(ax_range)
     elif keyword == "ylim":
-        ax.set_ylim(range)
+        ax.set_ylim(ax_range)
     else:
         ax.margins(0.3, 0.3)
     cx.add_basemap(ax, source=cx.providers.CartoDB.Voyager)
