@@ -11,6 +11,7 @@ import geopandas as gpd
 from math import cos, asin, sqrt, pi
 import shapely
 import contextily as cx
+import matplotlib
 
 
 def distance(lat1, lon1, lat2, lon2):
@@ -24,6 +25,24 @@ def distance(lat1, lon1, lat2, lon2):
     return 12742 * asin(sqrt(a))
 
 
+def ax_limits(geometry: list) -> tuple:
+    """Determine whether to pad frame."""
+    x = shapely.ops.linemerge(geometry)
+    xmin, ymin, xmax, ymax = x.bounds
+    ver = ymax - ymin
+    hor = xmax - xmin
+    ratio = hor / ver
+    if ratio > 2:
+        new = ver * ratio / 2
+        buff = (new - ver) / 2
+        return "ylim", (ymin - buff, ymax + buff)
+    elif ratio < 0.5:
+        new = 1 / (ratio * 2)
+        buff = (new - hor) / 2
+        return "xlim", (xmin - buff, xmax + buff)
+    return None, None
+
+
 def get_lines(
     client: googlemaps.Client,
     npr_key: str,
@@ -35,9 +54,9 @@ def get_lines(
     points = gmaps["geometry"]
     df_len = gmaps.shape[0]
     curr_st = None
-    emer_stop = 1
     stations = []
     geometry = []
+    check_dist = 60
     for i in range(df_len):
         if curr_st is None:
             lng = gmaps.loc[i, "lng"]
@@ -49,15 +68,18 @@ def get_lines(
             lng = gmaps.loc[i, "lng"]
             lat = gmaps.loc[i, "lat"]
             dist = distance(st_origin[1], st_origin[0], lat, lng)
-            if dist > 60:
+            if dist > check_dist:
                 stations.append(curr_st)
                 points = gmaps.loc[curr_idx : i + 1, "geometry"].to_list()
                 line = shapely.geometry.LineString(points)
                 geometry.append(line)
-                if emer_stop > 3:
-                    break
-                curr_st, _ = get_stations(npr_key, lng, lat)
-                emer_stop += 1
+                temp_st, _ = get_stations(npr_key, lng, lat)
+                if temp_st == curr_st:
+                    check_dist = 20
+                    curr_st = temp_st
+                else:
+                    check_dist = 70
+                    curr_st = temp_st
                 curr_idx = i
                 st_origin = (lng, lat)
         if i == df_len - 1:
@@ -74,13 +96,27 @@ def get_lines(
 
 def graph_lines(gdf: gpd.GeoDataFrame):
     """Graph NPR stations with Gmaps polyline."""
+    matplotlib.rcParams.update({"font.size": 15})
+    matplotlib.rcParams["font.family"] = "arial"
     ax = gdf.plot(
         figsize=(15, 15),
         column="stations",
         legend=True,
         linewidth=5,
-        legend_kwds={"loc": "lower right"},
+        legend_kwds={
+            "loc": "upper right",
+            "framealpha": 1.0,
+            "bbox_to_anchor": (1.22, 1),
+            "handletextpad": 0.3,
+        },
     )
-    cx.add_basemap(ax, source=cx.providers.Stamen.TonerLite)
+    keyword, range = ax_limits(list(gdf.geometry))
+    if keyword == "xlim":
+        ax.set_xlim(range)
+    elif keyword == "ylim":
+        ax.set_ylim(range)
+    else:
+        ax.margins(0.3, 0.3)
+    cx.add_basemap(ax, source=cx.providers.CartoDB.Voyager)
     ax.axis("off")
     return ax.figure
