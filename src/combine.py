@@ -120,6 +120,6 @@ def graph_lines(gdf: gpd.GeoDataFrame):
         ax.set_ylim(ax_range)
     else:
         ax.margins(0.3, 0.3)
-    cx.add_basemap(ax, source=cx.providers.CartoDB.Voyager)
+    cx.add_basemap(ax, crs=3857, source=cx.providers.CartoDB.Voyager)
     ax.axis("off")
     return ax.figure
