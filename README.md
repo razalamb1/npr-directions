@@ -10,9 +10,9 @@ This web application talks to the [Google Maps Directions API](https://developer
 
 ![Alt Text](https://github.com/razalamb1/npr-directions/blob/main/images/npr.png?raw=True)
 
-## Getting Started
 
 ## Getting Started
+
 If you would like to run the flask app locally, run the commands below.
 
 **Step 1: Clone the repo.**
@@ -31,6 +31,7 @@ make install
 ```
 
 **Step 4: Obtain API Keys for Google Maps and NPR.**
+
 In order to run this, you will need to get an API key for [Google Maps](https://developers.google.com/maps/documentation/javascript/get-api-key) and [NPR](https://dev.npr.org/guide/prerequisites/). Then you will need to create a `.env` file with these API keys in the root directory **and** the `src` folder, following the format from [the provided example](getting_started/.env_example).
 
 **Step 5: Run the flask app locally by executing main.py.**
@@ -38,6 +39,6 @@ In order to run this, you will need to get an API key for [Google Maps](https://
 python flask_app.py
 ```
 
-**Authors**: (Raza Lamb)[https://github.com/razalamb1], (Peining Yang)[https://github.com/peiningyang]
+**Authors**: [Raza Lamb](https://github.com/razalamb1), [Peining Yang](https://github.com/peiningyang)
 
 
