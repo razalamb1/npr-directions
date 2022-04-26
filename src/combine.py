@@ -2,10 +2,10 @@
 
 try:
     from src.gmaps import get_directions
-    from src.npr import get_stations
+    from src.npr import get_stations, StationError
 except ModuleNotFoundError:
     from gmaps import get_directions
-    from npr import get_stations
+    from npr import get_stations, StationError
 import googlemaps
 import geopandas as gpd
 from math import cos, asin, sqrt, pi
@@ -73,13 +73,16 @@ def get_lines(
                 points = gmaps.loc[curr_idx : i + 1, "geometry"].to_list()
                 line = shapely.geometry.LineString(points)
                 geometry.append(line)
-                temp_st, _ = get_stations(npr_key, lng, lat)
-                if temp_st == curr_st:
-                    check_dist = 20
-                    curr_st = temp_st
-                else:
-                    check_dist = 70
-                    curr_st = temp_st
+                try:
+                    temp_st, _ = get_stations(npr_key, lng, lat)
+                    if temp_st == curr_st:
+                        check_dist = 20
+                        curr_st = temp_st
+                    else:
+                        check_dist = 60
+                        curr_st = temp_st
+                except StationError:
+                    check_dist = 50
                 curr_idx = i
                 st_origin = (lng, lat)
         if i == df_len - 1:
