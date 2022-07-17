@@ -94,7 +94,7 @@ def get_lines(
         {"stations": stations, "geometry": geometry},
         crs=3857,
     )
-    return lines_df
+    return lines_df.dissolve(by="stations").reset_index()
 
 
 def graph_lines(gdf: gpd.GeoDataFrame):
@@ -113,7 +113,7 @@ def graph_lines(gdf: gpd.GeoDataFrame):
             "handletextpad": 0.3,
         },
     )
-    keyword, ax_range = ax_limits(list(gdf.geometry))
+    keyword, ax_range = ax_limits(list(gdf.explode(index_parts=True).geometry))
     if keyword == "xlim":
         ax.set_xlim(ax_range)
     elif keyword == "ylim":
@@ -122,4 +122,20 @@ def graph_lines(gdf: gpd.GeoDataFrame):
         ax.margins(0.3, 0.3)
     cx.add_basemap(ax, crs=3857, source=cx.providers.CartoDB.Voyager)
     ax.axis("off")
+    gdf.apply(
+        lambda x: ax.annotate(
+            text=x["stations"],
+            xy=x.geometry.centroid.coords[0],
+            ha="center",
+            va="baseline",
+            fontsize=12,
+            bbox={
+                "facecolor": "white",
+                "alpha": 0.8,
+                "pad": 2,
+                "edgecolor": "none",
+            },
+        ),
+        axis=1,
+    )
     return ax.figure
