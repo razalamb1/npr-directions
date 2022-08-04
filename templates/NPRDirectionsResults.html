@@ -47,13 +47,18 @@
 <body>
 
     <div class="bgimg w3-display-container w3-animate-opacity w3-text-white">
-        <h1 class="w3-jumbo w3-animate-top">Here are your results: </h1>
-        <p class="w3-large w3-left">The map is color-coded by station, and also contains labels for each leg of your
-            journey. The points at which the stations are out of range are accurate within approximately 20 miles.</p>
-        <hr class="w3-border-grey" style="margin:auto;width:40%">
-        <img src="data:image/jpeg;base64,{{ img_data }}" alt="img_data" id="imgslot" class="center" />
-    </div>
-
+        <div class="w3-display-left">
+            <h1 style="padding: 25px" class="w3-jumbo w3-animate-top">Here are your results: </h1>
+            <hr class="w3-border-grey" style="margin:auto;width:10%">
+            <p class="w3-large w3-left" style="padding: 25px">The map is color-coded by station, and also contains
+                labels for each leg of your
+                journey. The points at which the stations are out of range are accurate within approximately 20 miles.
+            </p>
+            <img src="data:image/jpeg;base64,{{ img_data }}" alt="img_data" id="imgslot" class="center" />
+            <a style="padding: 25px" href="data:image/jpeg;base64,{{ img_data }}" download="NPR_Directions"><button
+                    type="button">Download</button></a>
+        </div>
 </body>
+
 
 </html>

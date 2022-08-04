@@ -45,7 +45,8 @@ def NPRDirectionsResults():
         except OutsideUSA:
             outsideUSA_error = "Address must be within the US!"
             return render_template(
-                "OutsideUSA_ErrorMessage.html", outsideUSA_error=outsideUSA_error
+                "OutsideUSA_ErrorMessage.html",
+                outsideUSA_error=outsideUSA_error,
             )
     except StationError:
         station_error = "There is no NPR station found near your starting location, or the NPR API has reached its daily maximum. Please try a different starting location or try again tomorrow. "
@@ -55,7 +56,13 @@ def NPRDirectionsResults():
     fig = Figure()
     fig = graph_lines(gdf)
     output = io.BytesIO()
-    fig.savefig(output, format="png", dpi=300, bbox_inches="tight", pad_inches=1)
+    fig.savefig(
+        output,
+        format="png",
+        dpi=300,
+        bbox_inches="tight",
+        pad_inches=1,
+    )
     final_plot = base64.b64encode(output.getbuffer()).decode("utf-8")
     return render_template("NPRDirectionsResults.html", img_data=final_plot)
 

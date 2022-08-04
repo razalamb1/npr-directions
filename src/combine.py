@@ -12,6 +12,7 @@ from math import cos, asin, sqrt, pi
 import shapely
 import contextily as cx
 import matplotlib
+from adjustText import adjust_text
 
 
 def distance(lat1, lon1, lat2, lon2):
@@ -122,20 +123,20 @@ def graph_lines(gdf: gpd.GeoDataFrame):
         ax.margins(0.3, 0.3)
     cx.add_basemap(ax, crs=3857, source=cx.providers.CartoDB.Voyager)
     ax.axis("off")
-    gdf.apply(
-        lambda x: ax.annotate(
-            text=x["stations"],
-            xy=x.geometry.centroid.coords[0],
-            ha="center",
-            va="baseline",
-            fontsize=12,
-            bbox={
-                "facecolor": "white",
-                "alpha": 0.8,
-                "pad": 2,
-                "edgecolor": "none",
-            },
-        ),
-        axis=1,
-    )
+    texts = []
+    for i, row in gdf.iterrows():
+        texts.append(
+            ax.annotate(
+                text=row["stations"],
+                xy=row.geometry.centroid.coords[0],
+                fontsize=12,
+                bbox={
+                    "facecolor": "white",
+                    "alpha": 0.8,
+                    "pad": 2,
+                    "edgecolor": "none",
+                },
+            )
+        )
+    adjust_text(texts)
     return ax.figure
