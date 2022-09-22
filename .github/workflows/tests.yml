@@ -16,10 +16,10 @@ jobs:
           echo GMAPS_KEY=${{ secrets.GOOGLE_KEY }} >> .env
           echo NPR_KEY=${{ secrets.NPR_KEY }} >> .env
           cat .env
-    - name: Set up Python 3.8.14
+    - name: Set up Python 3.9.13
       uses: actions/setup-python@v1
       with:
-        python-version: 3.8.14
+        python-version: 3.9.13
     - name: Install dependencies
       run: |
         make install
